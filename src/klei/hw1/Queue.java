@@ -14,6 +14,7 @@ public class Queue<Item> implements Iterable<Item>  {
 	private int N;               // number of elements on queue
 
 	// helper linked list class
+	@SuppressWarnings("hiding")
 	class Node<Item> {
 		private Item item;
 		private Node<Item> next;
