@@ -15,10 +15,8 @@ public class AverageCase {
 	public static void main (String[] args) {
 		StdOut.println("Generating values. This may take a few seconds...");
 		Queue<int[][]> arraysToTime = generateArrays (50);
-		Queue<Double> elapsedTimes = new Queue<Double>();
 		int arrayInspections = 0;
 		for (int[][] arrays: arraysToTime) {
-			StopwatchCPU base = new StopwatchCPU();
 			int specialValue = BinaryArraySearchExercise.findSpecialValue(arrays[0], arrays[1], 0, 1);
 			arrayInspections += BinaryArraySearchExercise.arrayInspections;
 			if (specialValue == -1) {
@@ -31,21 +29,12 @@ public class AverageCase {
 					throw new IllegalStateException("There is no special value in the current row");
 				}
 			}
-			double time = base.elapsedTime();
-			elapsedTimes.enqueue(time);
 		}
-		int amount = 0;
-		double totalTime = 0;
-		for (double elapsedTime: elapsedTimes) {
-			amount ++;
-			totalTime += elapsedTime;
-		}
-		double average = totalTime / amount;
+		int amount = 4096;
+
 		double averageInspections = arrayInspections / amount;
 		StdOut.println("Amount = " + amount);
-		StdOut.println("Total time = " + totalTime);
 		StdOut.println("Average inspections = " + averageInspections);
-		StdOut.println("The average time consumbsion is " + average);
 	}
 
 	private static Queue<int[][]> generateArrays (int specialValue) {
