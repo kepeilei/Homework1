@@ -90,9 +90,9 @@ public class BinaryArraySearchExercise {
 				secondIndex ++;
 			} else {
 				// Comment out the following 3 lines when running AverageCase.java
-//				StdOut.println("Special value is " + firstInts[firstIndex]);
-//				StdOut.print("Located: (" + firstRow + "," + firstIndex + ")");
-//				StdOut.print(" (" + secondRow + "," + secondIndex + ")");
+				StdOut.println("Special value is " + firstInts[firstIndex]);
+				StdOut.print("Located: (" + firstRow + "," + firstIndex + ")");
+				StdOut.print(" (" + secondRow + "," + secondIndex + ")");
 				arrayInspections = arrayInspection;
 				return rowOne;
 			}
