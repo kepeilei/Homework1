@@ -1,0 +1,60 @@
+Kepei Lei
+HW1
+Written Questions
+
+Stack Experiments:
+1. The result is 8.0
+   Since there is no end parentheses, the calculating process is never triggered.
+   Thus, when displaying the result, it is just the top of the value stack (8)
+   ops (from bottom to top) : ["+"]
+   val (from bottom to top) : [6.0]
+2. -99.0
+   There is no evaluation, so the system is going to print the top and the only
+   element in the stack
+   ops (from bottom to top) : [] (empty)
+   val (from bottom to top) : [] (empty)
+3. 99.0
+   Again, there is no end parentheses to trigger the evaluating process, thus the
+   minus sign is never popped. So the result will be the top of the value stack (99)
+   ops (from bottom to top) : ["-"]
+   val (from bottom to top) : [] (empty)
+4. 21.666666666666668
+   This input fits the rule for the Evaluate program. There is end parentheses everywhere,
+   even though there are some unnecessary ones mathematically. But the end parentheses are
+   necessary for the program to evaluate the formula
+   ops (from bottom to top) : [] (empty)
+   val (from bottom to top) : [] (empty)
+5. 9.0
+   This still works properly due to how this algorithm works. First of all, the algorithm ignores the 
+   start parentheses so the formula becomes "2 + 3 + ) 4 )". Also, since the algorithm uses end parentheses
+   to trigger the calculation and there are only plus sign, there only needs to be two end parentheses for the algorithm
+   to work properly
+   ops (from bottom to top) : [] (empty)
+   val (from bottom to top) : [] (empty)
+7. 2.0
+   Like 4, the result of this input makes sense mathematically. It takes 5 to the 0.5 power first
+   (Which is the same as square root), then take the integer part of the answer
+   ops (from bottom to top) : [] (empty)
+   val (from bottom to top) : [] (empty)
+------------------
+
+Binary Search Exercise:
+1. The description (and the implementation) of the algorithm is in the class BinaryArraySearchExercise.java
+In the worst case, it would cost:
+2^(k+1) + M * (log(2^k) + 1) = 2^(k+1) + M (k+1)
+						     = 2*N + M * (log(N) + 1)
+
+Bonus:
+3. A worst-case example would be {1, 2, 3, 19}
+						         {4, 5, 6, 19}
+						         {7, 8, 9, 19}
+						         {10, 11, 12, 19}
+						         {13, 14, 15, 19}
+						         {16, 17, 18, 19} 
+
+4. A best-case example would be {12, 13, 14, 15}
+                                {12, 16, 17, 18}
+                                {11, 12, 19, 20}
+                                {10, 12, 21, 22}
+                                {9, 12, 23, 24}
+                                {8, 12, 25, 26}
