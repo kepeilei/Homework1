@@ -58,3 +58,5 @@ Bonus:
                                 {10, 12, 21, 22}
                                 {9, 12, 23, 24}
                                 {8, 12, 25, 26}
+                                
+5. The average array inspections for all the 6x4 arrays is 16
