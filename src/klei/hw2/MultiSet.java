@@ -1,5 +1,8 @@
 package klei.hw2;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * This data type offers Bag-like behavior with the added constraint that it tries
  * to minimize space by keeping track of the count of each item in the bag.
@@ -17,17 +20,28 @@ package klei.hw2;
  */
 public class MultiSet<Item extends Comparable<Item>> {
 
-	
+	Node first;
+	private int N;
+	private int U;
+
+
 	/** You must use this Node class as part of a LinkedList to store the MultiSet items. Do not modify this class. */
 	class Node {
 		private Item   item;
 		private int    count;
 		private Node   next;
+
+		Node (Item it) {
+			item = it;
+			count = 1;
+			next = null;
+		}
 	}
 
 	/** Create an empty MultiSet. */
 	public MultiSet () { 
-		
+		N = 0;
+		U = 0;
 	}
 
 	/**
@@ -36,7 +50,11 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * Performance is allowed to be dependent on N*N, where N is the number of total items in initial.
 	 */
 	public MultiSet(Item [] initial) { 
-		
+		N = 0;
+		U = 0;
+		for (Item it: initial) {
+			add(it);
+		}
 	}
 
 	/** 
@@ -45,8 +63,14 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * Performance must be independent of the number of items in the MultiSet, or ~ 1.
 	 */
 	public int size() {
-		// student fills in
-		return -1;
+		return N;
+	}
+	
+	/**
+	 * @return the number of unique items in the MultiSet.
+	 */
+	public int uniqueSize() {
+		return U;
 	}
 
 	/** 
@@ -57,30 +81,79 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * Performance must be linearly dependent upon min(U1,U2)
 	 */
 	public boolean identical (MultiSet<Item> other) { 
-		// student fills in 
-		return false;
+		if (U != other.uniqueSize() || N != other.size()) {
+			return false;
+		} else {
+			HashSet<Node> multOne = new HashSet<Node>();
+			Node tmp = first;
+			while (tmp != null) {
+				multOne.add(tmp);
+				tmp = tmp.next;
+			}
+			tmp = other.first;
+			while (tmp != null) {
+				if (!multOne.contains(tmp)){
+					return false;
+				}
+				tmp = tmp.next;
+			}
+			return true;
+		}
 	}
-	
+
 	/** 
 	 * Return an array that contains the items from the MultiSet.
 	 * 
 	 * Performance must be linearly dependent on N.
 	 */
 	public Item[] toArray() {
-		// student fills in
+		@SuppressWarnings("unchecked")
+		Item[] array = (Item[]) new Comparable[N];
+		int idx = 0;
+		Node current = first;
+		while (current != null) {
+			for (int i = 0; i < current.count; i ++) {
+				array[idx] = current.item;
+				idx ++;
+			}
+			current = current.next;
+		}
+		return array;
+	}
+
+	/**
+	 * Find the node that has the passed in parameter
+	 * @param it the passed parameter to find
+	 * @return null if there is no such element, else the node that contains such element
+	 */
+	public Node findNode (Item it) {
+		Node current = first;
+		while (current != null) {
+			if (current.item.equals(it)) return current;
+			current = current.next;
+		}
 		return null;
 	}
-	
+
 	/** 
 	 * Add an item to the MultiSet.
 	 * 
 	 * Performance must be no worse than linearly dependent on N.
 	 */
 	public boolean add(Item it) {
-		// student fills in
-		return false;
+		Node existingNode = findNode(it);
+		if (existingNode != null) {
+			existingNode.count++;
+		} else {
+			Node node = new Node(it);
+			node.next = first;
+			first = node;
+			U++;
+		}
+		N++;
+		return true;
 	}
-	
+
 	/** 
 	 * Remove an item from the MultiSet; return false if not in the MultiSet to
 	 * begin with, otherwise returns true on success.
@@ -88,10 +161,29 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * Performance must be no worse than linearly dependent on N.
 	 */
 	public boolean remove (Item it) {
-		// student fills in
+		Node tmp = first;
+		Node prev = null;
+		while (tmp != null) {
+			if(tmp.item.equals(it)){
+				tmp.count--;
+				N--;
+				if (tmp.count == 0) {
+					U--;
+					if (prev == null) {
+						first = tmp.next;
+					} else {
+						prev.next = tmp.next;
+					}
+				}
+				return true;
+			}
+			
+			prev = tmp;
+			tmp = tmp.next;
+		}
 		return false;
 	}
-	
+
 	/** 
 	 * Returns the number of times item appears in the MultiSet.
 	 * 
@@ -100,8 +192,12 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * Performance must be no worse than linearly dependent on U.
 	 */
 	public int multiplicity (Item it) {
-		// student fills in
-		return -1;
+		Node existingNode = findNode(it);
+		if (existingNode == null) {
+			return 0;
+		} else {
+			return existingNode.count;
+		}
 	}
 
 	/** 
@@ -118,10 +214,26 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * and UO is the number of unique items in other.
 	 */
 	public boolean includes(MultiSet<Item> other) {
-		// student fills in
-		return false;
+		if (first == null) return false;
+		if (other.first == null) return true;
+		if (U < other.uniqueSize() || N < other.N) {return false;}
+		else {
+			Node tmp = first;
+			HashMap<Item, Integer> bigMult = new HashMap<Item, Integer>();
+			while (tmp != null) {
+				bigMult.put(tmp.item, tmp.count);
+				tmp = tmp.next;
+			}
+			tmp = other.first;
+			while (tmp != null) {
+				if (!bigMult.containsKey(tmp.item)) {return false;}
+				else if (bigMult.get(tmp) < tmp.count){return false;}
+				tmp = tmp.next;
+			}
+			return true;
+		}
 	}
-	
+
 	/** 
 	 * Return a MultiSet which represents intersection with existing MultiSet.
 	 * 

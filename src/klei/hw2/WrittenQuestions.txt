@@ -13,6 +13,7 @@ N	    MergeU	QuickU	QuickAU	|	MergeD	QuickD	QuickAD
 131072	0.016	0.016	0.031	|	0.016	0.000	0.031
 262144	0.047	0.031	0.047	|	0.031	0.031	0.047
 524288	0.125	0.109	0.125	|	0.063	0.047	0.125
+1048576	0.328	0.219	0.297	|	0.141	0.094	0.297
 
 Exch Results
 N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
@@ -23,6 +24,7 @@ N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
 131072	0.000e+00	5.253e+05	1.309e+06	|	0.000e+00	5.253e+05	2.711e+05
 262144	0.000e+00	1.106e+06	2.956e+06	|	0.000e+00	1.106e+06	5.584e+05
 524288	0.000e+00	2.340e+06	6.118e+06	|	0.000e+00	2.340e+06	1.157e+06
+1048576	0.000e+00	4.917e+06	1.286e+07	|	0.000e+00	4.917e+06	2.172e+06
 
 Less Results
 N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
@@ -33,6 +35,7 @@ N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
 131072	2.063e+06	2.758e+06	2.758e+06	|	1.653e+06	2.137e+06	2.758e+06
 262144	4.387e+06	5.982e+06	6.004e+06	|	3.501e+06	4.779e+06	6.004e+06
 524288	9.298e+06	1.268e+07	1.237e+07	|	7.309e+06	9.550e+06	1.237e+07
+1048576	1.965e+07	2.697e+07	2.642e+07	|	1.555e+07	2.091e+07	2.642e+07
 
 Merge: There is evidence for hypothesis 1.
 As the data shows, there is detectable reduced time with duplicate values starting
