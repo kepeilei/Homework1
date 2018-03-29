@@ -19,9 +19,28 @@ import edu.princeton.cs.algs4.StdRandom;
  */
 public class QuickAlternate {
 
+	private static long lessCount;
+	private static long exchCount;
+	
 	// This class should not be instantiated.
 	private QuickAlternate() { }
+	
+	public static long getLessCount() {
+    	return lessCount;
+    }
+    
+    public static long getexchCount() {
+    	return exchCount;
+    }
 
+    public static void initLessCount() {
+		lessCount = 0;
+	}
+	
+	public static void initexchCount() {
+		exchCount = 0;
+	}
+    
 	/**
 	 * Rearranges the array in ascending order, using the natural order.
 	 * @param a the array to be sorted
@@ -66,11 +85,13 @@ public class QuickAlternate {
 
 	// is v < w ?
 	private static boolean less(Comparable v, Comparable w) {
+		lessCount ++;
 		return v.compareTo(w) < 0;
 	}
 
 	// exchange a[i] and a[j]
 	private static void exch(Object[] a, int i, int j) {
+		exchCount++;
 		Object swap = a[i];
 		a[i] = a[j];
 		a[j] = swap;

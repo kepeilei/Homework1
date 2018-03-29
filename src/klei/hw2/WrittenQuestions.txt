@@ -1,5 +1,53 @@
-<<Your Name Here>>
+Kepei Lei
 HW2
 Written Questions
 
 << Use this file for providing your written answers to the question. >>
+Question 2
+Time Trials
+N	    MergeU	QuickU	QuickAU	|	MergeD	QuickD	QuickAD
+8192	0.000	0.000	0.000	|	0.000	0.000	0.000
+16384	0.000	0.000	0.000	|	0.000	0.000	0.000
+32768	0.000	0.000	0.000	|	0.000	0.000	0.000
+65536	0.016	0.000	0.016	|	0.016	0.000	0.016
+131072	0.016	0.016	0.031	|	0.016	0.000	0.031
+262144	0.047	0.031	0.047	|	0.031	0.031	0.047
+524288	0.125	0.109	0.125	|	0.063	0.047	0.125
+
+Exch Results
+N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
+8192	0.000e+00	2.490e+04	6.156e+04	|	0.000e+00	2.490e+04	1.499e+04
+16384	0.000e+00	5.449e+04	1.433e+05	|	0.000e+00	5.449e+04	3.775e+04
+32768	0.000e+00	1.157e+05	3.020e+05	|	0.000e+00	1.157e+05	8.177e+04
+65536	0.000e+00	2.479e+05	6.498e+05	|	0.000e+00	2.479e+05	1.387e+05
+131072	0.000e+00	5.253e+05	1.309e+06	|	0.000e+00	5.253e+05	2.711e+05
+262144	0.000e+00	1.106e+06	2.956e+06	|	0.000e+00	1.106e+06	5.584e+05
+524288	0.000e+00	2.340e+06	6.118e+06	|	0.000e+00	2.340e+06	1.157e+06
+
+Less Results
+N	    MergeU		QuickU		QuickAU		|	MergeD		QuickD		QuickAD
+8192	9.612e+04	1.269e+05	1.225e+05	|	7.986e+04	1.001e+05	1.225e+05
+16384	2.086e+05	2.789e+05	2.763e+05	|	1.712e+05	2.332e+05	2.763e+05
+32768	4.500e+05	6.119e+05	5.928e+05	|	3.660e+05	4.965e+05	5.928e+05
+65536	9.655e+05	1.287e+06	1.291e+06	|	7.636e+05	1.078e+06	1.291e+06
+131072	2.063e+06	2.758e+06	2.758e+06	|	1.653e+06	2.137e+06	2.758e+06
+262144	4.387e+06	5.982e+06	6.004e+06	|	3.501e+06	4.779e+06	6.004e+06
+524288	9.298e+06	1.268e+07	1.237e+07	|	7.309e+06	9.550e+06	1.237e+07
+
+Merge: There is evidence for hypothesis 1.
+As the data shows, there is detectable reduced time with duplicate values starting
+262144. This is mainly because with duplicate values, merge sort is more likely to 
+hit the best case when merge, which results in fewer "less" comparisons
+Since merge sort does not use exchanges, the number is always zero. Thus, hypothesis 2
+is false for merge sort
+Quick: There is evidence for hypothesis 1
+As the data shows, there is dfetectable reduced time with duplicate values starting
+524288. Also, the "less" comparisons for duplicate values are fewer than
+that for unique values.
+According to the results, the number of exchange is not reduced, since the numbers
+are identical for both situations.
+Quick Alternative: According to the result, the time is not reduced with many duplicate values.
+THe times spent are identical from size 8192 to size 524288. Thus, the time is not reduced.
+According to the result, the number of exchanges are significantly reduced when there are
+a large number of duplicate values. The numbers for QuickAD are significantly smaller
+than those for unique values (The QuickAD is always about 25% of QuickAU regardless of the size).
