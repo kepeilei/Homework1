@@ -1,8 +1,5 @@
 package klei.hw2;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
 /**
  * This data type offers Bag-like behavior with the added constraint that it tries
  * to minimize space by keeping track of the count of each item in the bag.
@@ -35,6 +32,10 @@ public class MultiSet<Item extends Comparable<Item>> {
 			item = it;
 			count = 1;
 			next = null;
+		}
+		
+		boolean equals(Node node) {
+			return (item.equals(node.item) && count == node.count);
 		}
 	}
 
@@ -84,18 +85,14 @@ public class MultiSet<Item extends Comparable<Item>> {
 		if (U != other.uniqueSize() || N != other.size()) {
 			return false;
 		} else {
-			HashSet<Node> multOne = new HashSet<Node>();
-			Node tmp = first;
-			while (tmp != null) {
-				multOne.add(tmp);
-				tmp = tmp.next;
-			}
-			tmp = other.first;
-			while (tmp != null) {
-				if (!multOne.contains(tmp)){
+			Node tmp1 = first;
+			Node tmp2 = other.first;
+			while (tmp1 != null) {
+				if (!tmp1.equals(tmp2)) {
 					return false;
 				}
-				tmp = tmp.next;
+				tmp1 = tmp1.next;
+				tmp2 = tmp2.next;
 			}
 			return true;
 		}
@@ -146,9 +143,17 @@ public class MultiSet<Item extends Comparable<Item>> {
 			existingNode.count++;
 		} else {
 			Node node = new Node(it);
-			node.next = first;
-			first = node;
 			U++;
+			Node tmp = first;
+			Node prev = null;
+			while (it.compareTo(tmp.item) > 0 && tmp != null) {
+				prev = tmp;
+				tmp = tmp.next;
+			}
+			if (tmp != null) {
+				node.next = tmp;
+			}
+			prev.next = node;
 		}
 		N++;
 		return true;
@@ -218,18 +223,8 @@ public class MultiSet<Item extends Comparable<Item>> {
 		if (other.first == null) return true;
 		if (U < other.uniqueSize() || N < other.N) {return false;}
 		else {
-			Node tmp = first;
-			HashMap<Item, Integer> bigMult = new HashMap<Item, Integer>();
-			while (tmp != null) {
-				bigMult.put(tmp.item, tmp.count);
-				tmp = tmp.next;
-			}
-			tmp = other.first;
-			while (tmp != null) {
-				if (!bigMult.containsKey(tmp.item)) {return false;}
-				else if (bigMult.get(tmp) < tmp.count){return false;}
-				tmp = tmp.next;
-			}
+			Node bigTemp = first;
+			Node smallTemp = other.first;
 			return true;
 		}
 	}
