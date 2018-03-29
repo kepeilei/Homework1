@@ -18,8 +18,8 @@ N		inter	ident	union	mult_a		add_a		rem_a
 
  */
 public class ValidateMultiSet {
-	public static final int low = 8192;
-	public static final int high = 65536;
+	public static final int low = 4096;
+	public static final int high = 131072;
 	
 	/** Copied from StdRandom.shuffle(). Bringing here so you can see the exchanges... */
     public static void shuffle(Object[] a) {
@@ -130,8 +130,14 @@ public class ValidateMultiSet {
 		for (int n = low; n <= high; n *= 2) {
 			
 			MultiSet<Integer> s1      = new MultiSet<Integer>(generateOddData (n, 1));
+//			System.out.println(s1.size());
+//			System.out.println(s1.uniqueSize());
+//			System.out.println(s1.debug);
 			MultiSet<Integer> s1_copy = new MultiSet<Integer>(generateOddData (n, 1));
 			MultiSet<Integer> s2      = new MultiSet<Integer>(generateOddData (n, 2));
+//			System.out.println(s2.size());
+//			System.out.println(s2.uniqueSize());
+//			System.out.println(s2.debug);
 			MultiSet<Integer> s3      = new MultiSet<Integer>(generateEvenData(n, 1));
 			MultiSet<Integer> s4      = new MultiSet<Integer>(generateAllData (n, 1));
 			

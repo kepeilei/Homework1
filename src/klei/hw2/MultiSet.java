@@ -28,14 +28,14 @@ public class MultiSet<Item extends Comparable<Item>> {
 		private int    count;
 		private Node   next;
 
-		Node (Item it) {
+		public Node (Item it) {
 			item = it;
 			count = 1;
 			next = null;
 		}
-		
-		boolean equals(Node node) {
-			return (item.equals(node.item) && count == node.count);
+
+		boolean equals(Node newNode) {
+			return (item.equals(newNode.item) && (count == newNode.count));
 		}
 	}
 
@@ -53,8 +53,8 @@ public class MultiSet<Item extends Comparable<Item>> {
 	public MultiSet(Item [] initial) { 
 		N = 0;
 		U = 0;
-		for (Item it: initial) {
-			add(it);
+		for (int i = 0; i < initial.length; i++) {
+			add(initial[i]);
 		}
 	}
 
@@ -66,7 +66,7 @@ public class MultiSet<Item extends Comparable<Item>> {
 	public int size() {
 		return N;
 	}
-	
+
 	/**
 	 * @return the number of unique items in the MultiSet.
 	 */
@@ -87,7 +87,7 @@ public class MultiSet<Item extends Comparable<Item>> {
 		} else {
 			Node tmp1 = first;
 			Node tmp2 = other.first;
-			while (tmp1 != null) {
+			while (tmp1 != null && tmp2 != null) {
 				if (!tmp1.equals(tmp2)) {
 					return false;
 				}
@@ -126,36 +126,81 @@ public class MultiSet<Item extends Comparable<Item>> {
 	public Node findNode (Item it) {
 		Node current = first;
 		while (current != null) {
-			if (current.item.equals(it)) return current;
+			if (current.item.compareTo(it) == 0) {
+				return current;
+				}
 			current = current.next;
 		}
 		return null;
 	}
 
+	public int debug = 0;
 	/** 
 	 * Add an item to the MultiSet.
 	 * 
 	 * Performance must be no worse than linearly dependent on N.
 	 */
 	public boolean add(Item it) {
+		N++;
 		Node existingNode = findNode(it);
 		if (existingNode != null) {
 			existingNode.count++;
-		} else {
-			Node node = new Node(it);
+//			debug ++;
+		} else if (first == null) {
 			U++;
+			first = new Node(it);
+		} else {
+			U++;
+			Node node = new Node(it);
 			Node tmp = first;
 			Node prev = null;
-			while (it.compareTo(tmp.item) > 0 && tmp != null) {
+			while (tmp != null && it.compareTo(tmp.item) > 0) {
 				prev = tmp;
 				tmp = tmp.next;
 			}
 			if (tmp != null) {
 				node.next = tmp;
+				if (tmp.equals(first)) {
+					first = node;
+				}
 			}
-			prev.next = node;
+			if (prev != null) {
+				prev.next = node;
+			}
 		}
-		N++;
+		return true;
+	}
+
+	/** 
+	 * Add several same items to the MultiSet.
+	 * 
+	 * Performance must be no worse than linearly dependent on N.
+	 */
+	public boolean add(Item it, int amount) {
+		N += amount;
+		Node existingNode = findNode(it);
+		if (existingNode != null) {
+			existingNode.count += amount;
+		} else {
+			U++;
+			Node node = new Node(it);
+			node.count = amount;
+			Node tmp = first;
+			Node prev = null;
+			while (tmp != null && it.compareTo(tmp.item) > 0) {
+				prev = tmp;
+				tmp = tmp.next;
+			}
+			if (tmp != null) {
+				node.next = tmp;
+				if (tmp.equals(first)) {
+					first = node;
+				}
+			}
+			if (prev != null) {
+				prev.next = node;
+			}
+		}
 		return true;
 	}
 
@@ -182,7 +227,7 @@ public class MultiSet<Item extends Comparable<Item>> {
 				}
 				return true;
 			}
-			
+
 			prev = tmp;
 			tmp = tmp.next;
 		}
@@ -223,8 +268,14 @@ public class MultiSet<Item extends Comparable<Item>> {
 		if (other.first == null) return true;
 		if (U < other.uniqueSize() || N < other.N) {return false;}
 		else {
-			Node bigTemp = first;
+			Node bigTemp = findNode(other.first.item);
 			Node smallTemp = other.first;
+			while (smallTemp != null) {
+				if (bigTemp == null || !smallTemp.item.equals(bigTemp.item)) {return false;}
+				else if (bigTemp.count < smallTemp.count) {return false;}
+				bigTemp = bigTemp.next;
+				smallTemp = smallTemp.next;
+			}
 			return true;
 		}
 	}
@@ -241,8 +292,21 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * This is challenging.
 	 */
 	public MultiSet<Item> intersects(MultiSet<Item> other) {
-		// student fills in
-		return null;
+		MultiSet<Item> intersectionSet = new MultiSet<Item>();
+		Node tempA = first;
+		Node tempB = other.first;
+		while (tempA != null && tempB != null) {
+			if (less(tempA, tempB)) {
+				tempA = tempA.next;
+			} else if (less(tempB, tempA)) {
+				tempB = tempB.next;
+			} else {
+				intersectionSet.add(tempA.item, Math.min(tempA.count, tempB.count));
+				tempA = tempA.next;
+				tempB = tempB.next;
+			}
+		}
+		return intersectionSet;
 	}
 
 	/** 
@@ -257,7 +321,40 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 * This is challenging.
 	 */
 	public MultiSet<Item> union(MultiSet<Item> other) {
-		// student fills in
-		return null;
+		MultiSet<Item> unionSet = new MultiSet<Item>();
+		Node tempA = first;
+		Node tempB = other.first;
+		while (tempA != null || tempB != null) {
+			if (tempA == null) {
+				unionSet.add(tempB.item, tempB.count);
+				tempB = tempB.next;
+			} else if (tempB == null) {
+				unionSet.add(tempA.item, tempA.count);
+				tempA = tempA.next;
+			} else {
+				if (less(tempA, tempB)) {
+					unionSet.add(tempA.item, tempA.count);
+					tempA = tempA.next;
+				} else if (less(tempB, tempA)) {
+					unionSet.add(tempB.item, tempB.count);
+					tempB = tempB.next;
+				} else {
+					unionSet.add(tempA.item, Math.max(tempA.count, tempB.count));
+					tempA = tempA.next;
+					tempB = tempB.next;
+				}
+			}
+		}
+		return unionSet;
+	}
+
+	/**
+	 * A helper method to make comparison easier
+	 * @param nodeOne
+	 * @param nodeTwo
+	 * @return if nodeOne is less than nodeTwo
+	 */
+	private boolean less (Node nodeOne, Node nodeTwo) {
+		return (nodeOne.item.compareTo(nodeTwo.item) < 0);
 	}
 }
