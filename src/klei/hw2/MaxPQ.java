@@ -6,6 +6,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class MaxPQ<Key> {
 	private Key[] pq;                    // store items at indices 1 to N (pq[0] is unused)
 	private int N;                       // number of items on priority queue
+	int lessCount;                       // Number of method less called for analysis purposes
 
 	public MaxPQ(int initCapacity) {
 		pq = (Key[]) new Object[initCapacity + 1];
@@ -86,6 +87,7 @@ public class MaxPQ<Key> {
 	 * Helper functions for compares and swaps.
 	 ***************************************************************************/
 	private boolean less(int i, int j) {
+		lessCount ++;
 		return ((Comparable<Key>) pq[i]).compareTo(pq[j]) < 0;
 	}
 
