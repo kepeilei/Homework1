@@ -1,5 +1,7 @@
 package klei.hw2;
 
+import java.util.Iterator;
+
 /**
  * This data type offers Bag-like behavior with the added constraint that it tries
  * to minimize space by keeping track of the count of each item in the bag.
@@ -15,7 +17,7 @@ package klei.hw2;
  * 
  * @param <Item>
  */
-public class MultiSet<Item extends Comparable<Item>> {
+public class MultiSet<Item extends Comparable<Item>> implements Iterable {
 
 	Node first;
 	private int N;
@@ -356,5 +358,39 @@ public class MultiSet<Item extends Comparable<Item>> {
 	 */
 	private boolean less (Node nodeOne, Node nodeTwo) {
 		return (nodeOne.item.compareTo(nodeTwo.item) < 0);
+	}
+
+	@Override
+	public Iterator<Item> iterator() {
+		return new multiIt();
+	}
+	
+	private class multiIt implements Iterator<Item> {
+		Node current, next;
+		int amountLeft;
+		
+		multiIt () {
+			next = first;
+			current = null;
+			amountLeft = 0;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return (next != null || (amountLeft > 0));
+		}
+
+		@Override
+		public Item next() {
+			if (amountLeft == 0) {
+				current = next;
+				amountLeft = current.count - 1;
+				next = current.next;
+			} else {
+				amountLeft --;
+			}
+			return current.item;
+		}
+		
 	}
 }
