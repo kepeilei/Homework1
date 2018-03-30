@@ -3,5 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SedgewickAlgorithms4ed"/>
+	<classpathentry kind="lib" path="C:/Users/Kepei Lei&apos;s beast/OneDrive/WPI/CS 210X/Project1/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kepei Lei&apos;s beast/OneDrive/WPI/CS 210X/Project1/junit-4.12.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
