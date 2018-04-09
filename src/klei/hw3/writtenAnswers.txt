@@ -2,4 +2,16 @@
 HW3
 Written Questions
 
+
+Question 2
+Size	Exchanges	Comparisons
+16		25.2		9.4
+32		53.0		20.1
+64		109.2		40.9
+128		231.6		89.7
+256		470.0		185.3
+512		947.0		372.0
+1024	1903.8		749.6
+2048	3831.2		1509.1
+
 << Use this file for providing your written answers to the question. >>

@@ -14,7 +14,10 @@ import edu.princeton.cs.algs4.StdOut;
  *  @author Kevin Wayne
  */
 public class Heap {
-	
+	static int comparisons;
+	static int exchanges;
+	static int compCount;
+	static int exchCount;
 	/**
 	  * Rearranges the array in ascending order, using the natural order.
 	  * @param a the array to be sorted
@@ -22,10 +25,14 @@ public class Heap {
 	 public static void sort(Comparable[] a) {
 		 int n = a.length;
 		 
+		 compCount = 0;
+		 exchCount = 0;
 		 // construct heap from the raw array of which we know nothing.
 		 for (int k = n/2; k >= 1; k--) {
 			 sink(a, k, n);
 		 }
+		 comparisons = compCount;
+		 exchanges = exchCount;
 		 
 		 // at this point, a has been turned into a heap.
 		 
@@ -42,8 +49,11 @@ public class Heap {
 	 private static void sink(Comparable[] pq, int k, int n) {
 		 while (2*k <= n) {
 			 int j = 2*k;
+			 compCount ++;
 			 if (j < n && less(pq, j, j+1)) j++;
+			 compCount ++;
 			 if (!less(pq, k, j)) break;
+			 exchCount ++;
 			 exch(pq, k, j);
 			 k = j;
 		 }
