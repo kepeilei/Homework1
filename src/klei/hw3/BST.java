@@ -10,6 +10,8 @@ package klei.hw3;
  */
 public class BST<Key extends Comparable<Key>, Value> {
 
+	int tmpCount;
+	int compareCount;
 	Node root;               // root of the tree
 	
 	class Node {
@@ -41,16 +43,17 @@ public class BST<Key extends Comparable<Key>, Value> {
 	public boolean contains(Key key) { return get(key) != null; }
 
 	/** Search parent. */
-	public Value get(Key key)        { return get(root, key); }
+	public Value get(Key key)        { tmpCount = 0; return get(root, key); }
 	
 	private Value get(Node parent, Key key) {
-		if (parent == null) return null;
+		if (parent == null) {compareCount = tmpCount; return null;}
 		
 		int cmp = key.compareTo(parent.key);
+		tmpCount ++;
 		
 		if      (cmp < 0) return get(parent.left, key);
 		else if (cmp > 0) return get(parent.right, key);
-		else              return parent.val;
+		else              {compareCount = tmpCount; return parent.val;}
 	}
 
 	/** Invoke put on parent, should it exist. */
@@ -68,5 +71,16 @@ public class BST<Key extends Comparable<Key>, Value> {
 		
 		parent.N = 1 + size(parent.left) + size(parent.right);
 		return parent;
+	}
+	
+	public int calculateCN(){
+		return calculateCN(root);
+	}
+	
+	private int calculateCN(Node parent) {
+		int total = parent.N;
+		if (parent.left != null) total += calculateCN(parent.left);
+		if (parent.right != null) total += calculateCN(parent.right);
+		return total;
 	}
 }
