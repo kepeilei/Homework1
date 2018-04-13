@@ -76,12 +76,12 @@ The upper bound is (log(N) + 1), which means the client hits the target last try
 
 Q3c.
 Upper Bound:
-C(N) = N + 2*C(N/2)
-	 = N + 2(N/2 + 2C(N/4)) = 2N + 4C(N/4)
+C(N) = N-1 + 2*C(N/2)
+	 = N-1 + 2(N/2 - 1 + 2C(N/4)) = 2N -1 -2 + 4C(N/4)
 	 ...
-	 = N + N + ... + N + C(1)
+	 = N + N + ... + N - 1 - 2 - 4 - ... - N/2 + C(1)
 Since C(1) = 0
-C(N) = log(N) * N
+C(N) = log(N) * N - N + 1
 Lower Bound:
 C(N) = N/2 + 2*C(N/2)
 	 = N/2 + 2(N/4 + 2C(N/4)) = 2N + 4C(N/4)
