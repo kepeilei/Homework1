@@ -74,13 +74,13 @@ public class BST<Key extends Comparable<Key>, Value> {
 	}
 	
 	public int calculateCN(){
-		return calculateCN(root);
+		return calculateCN(root, 0);
 	}
 	
-	private int calculateCN(Node parent) {
-		int total = parent.N;
-		if (parent.left != null) total += calculateCN(parent.left);
-		if (parent.right != null) total += calculateCN(parent.right);
+	private int calculateCN(Node parent, int depth) {
+		int total = depth;
+		if (parent.left != null) total += calculateCN(parent.left, depth + 1);
+		if (parent.right != null) total += calculateCN(parent.right, depth + 1);
 		return total;
 	}
 }
